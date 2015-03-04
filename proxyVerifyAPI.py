@@ -25,7 +25,7 @@ def isPortOpen(ip,port):
 def verifyProxy(proxyIP):
     if isPortOpen(proxyIP.split(':')[0],proxyIP.split(':')[1]):
         try:
-            html = requests.get("http://www.daviddworken.com/", timeout=30, proxies = {'http':'http://'+proxyIP}, headers = {'User-agent': 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.69 Safari/537.36'})
+            html = requests.get("http://www.daviddworken.com/", timeout=10, proxies = {'http':'http://'+proxyIP}, headers = {'User-agent': 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.69 Safari/537.36'})
         except:
             print proxyIP + "0"
             return {"Status:" : 0, "Reason": "Proxy not responding to requests"}
@@ -34,8 +34,8 @@ def verifyProxy(proxyIP):
         return {"Status:" : 0, "Reason": "Proxy not responding to requests"}
 
     try:
-        proxyHTML = requests.get("http://www.daviddworken.com/", timeout=30, proxies = {'http':'http://'+proxyIP}, headers = {'User-agent': 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.69 Safari/537.36'})
-        normalHTML = requests.get(proxyIP, timeout=30, headers = {'User-agent': 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.69 Safari/537.36'})
+        proxyHTML = requests.get("http://www.daviddworken.com/", proxies = {'http':'http://'+proxyIP}, headers = {'User-agent': 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.69 Safari/537.36'})
+        normalHTML = requests.get(proxyIP, headers = {'User-agent': 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.69 Safari/537.36'})
         if normalHTML.content == proxyHTML.content:
             print proxyIP + "4"
             return {"Status:" : 4, "Reason": "The proxy is not a proxy, it is just a web server"}
@@ -46,7 +46,7 @@ def verifyProxy(proxyIP):
 
     urls = ["http://www.daviddworken.com/", "http://google.com/", "http://dyn.com"]
     for url in urls:
-        html = requests.get(url, timeout=30, proxies = {'http':'http://'+proxyIP}, headers = {'User-agent': 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.69 Safari/537.36'})
+        html = requests.get(url, proxies = {'http':'http://'+proxyIP}, headers = {'User-agent': 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.69 Safari/537.36'})
         differ = difflib.Differ()
         htmlNormal = requests.get(url)
         htmlHash = hashlib.sha1(html.content).digest()
