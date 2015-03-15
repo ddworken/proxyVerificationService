@@ -1,5 +1,4 @@
 from flask import Flask, jsonify
-import difflib
 import requests
 import hashlib
 import re
@@ -52,11 +51,6 @@ def verifyProxy(proxyIP):
         htmlHash = hashlib.sha1(html.content).digest()
         htmlNormalHash = hashlib.sha1(htmlNormal.content).digest()
         if(not(htmlHash == htmlNormalHash)):
-            htmlNormalL = htmlNormal.content.splitlines()
-            htmlL = html.content.splitlines()
-            diff = differ.compare(htmlNormalL, htmlL)
-            #print(bcolors.WARNING + "[-] Malicious proxy found at " + proxy + bcolors.ENDC)
-            #diffOut =  '\n'.join(diff)
             print proxyIP + " Status: 1"
             return {"Status:" : 1, "Reason": "Proxy modifies HTML"}
     try:
@@ -75,4 +69,4 @@ def verifyProxy(proxyIP):
     return {"Status:" : -1, "Reason": "Proxy passed all tests"}
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',port=8080,debug=True)
+    app.run(host='0.0.0.0',port=80,debug=True)
