@@ -1,2 +1,2 @@
 # proxyVerificationService
-A repository to hold code for a proxy verification service written in Python using Flask. 
+Code for a proxy verification API that tests whether or not the proxy is responding to requests and also checks for malicious behavior. 
